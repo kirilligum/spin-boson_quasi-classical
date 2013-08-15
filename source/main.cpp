@@ -31,25 +31,22 @@ int main(int argc, const char *argv[]) {
   const double 
     alpha = 0.09,
     wc = 2.5,
-    wmax_factor = 5,
-    beta = 10 ,
+    wmax_factor = 1,
+    beta = 5 ,
     delta = 1,
     eps = 0,
-    //eps = 1,
-    //n_modes = 100,
-    end_time = 40 ,
+    end_time = 15 ,
     n1 = 1.0,
     n2 = 0.0,
-    bin_start = 0.5,
-    bin_end = 0.5,
-    L = 0.3;
+    bin_start = 0.35,
+    bin_end = 0.35;
   double seed = 2345;
   const int  
     n_threads = 1,
     n_times = 100, 
     n_modes = 100,
-    n_trajs = 40;
-  vector<double> param = { alpha, wc, wmax_factor, beta, delta, eps, n_modes, n_trajs, end_time, n_times, L, n_threads, seed }; o("param",param);
+    n_trajs = 1000;
+  vector<double> param = { alpha, wc, wmax_factor, beta, delta, eps, n_modes, n_trajs, end_time, n_times, n_threads, seed }; o("param",param);
   double eta = alpha*M_PI_2;
   double dw =wmax_factor*wc/n_modes;
   
@@ -70,6 +67,12 @@ int main(int argc, const char *argv[]) {
   cout << "Integrating trajectories \n";
   vector<vector<vector<double>>> trajs;
   transform(states.begin(),states.end(),back_inserter(trajs), bind(integrate_traj,_1,n_times,end_time,delta,wb,cb));
+  auto traj = trajs.front();
+  for(auto &i:traj) {
+    i.push_back(get_n1(i));
+    i.push_back(get_n2(i));
+  }
+  o(traj,"traj.dat");
 
   cout << "binning ... \n";
   auto el_pop = electronic_population(trajs,n1,n2,bin_end);

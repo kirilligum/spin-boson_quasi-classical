@@ -25,7 +25,6 @@ vector<vector<double>> integrate_traj(vector<double> state, int n_times, double 
   auto energy = spin_boson(delta,wb,cb);
   boost::partial_sum(traj, traj.begin(),ode_step(end_time/n_times,eom_spin_boson(delta,wb,cb),energy));
   traj.front().back()= energy(state);
-  //for(auto i:traj) o("traj",i);
   return traj;
 }
 

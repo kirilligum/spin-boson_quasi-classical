@@ -11,8 +11,9 @@ vector<double> make_initial_state(double n1, double bin_start, vector<double> pb
   std::mt19937 g(++seed);
   std::uniform_real_distribution<double> ran_pi(0.0,2*M_PI);
   uniform_real_distribution<double> ran_bin(-bin_start,bin_start);
+  double n2=1.0-n1;
   n1+=ran_bin(g);
-  const double n2=1.0-n1;
+  n2+=ran_bin(g);
   const double q1=ran_pi(g),q2=ran_pi(g);
   vector<double> state (1+4+2*pb.size()+1,0.0);// time+pxpx+PQ+energy
   state[0]=0.0;
