@@ -38,6 +38,7 @@ int main(int argc, const char *argv[]) {
     end_time = 15 ,
     n1 = 1.0,
     n2 = 0.0,
+    n_shift = 0.35,
     bin_start = 0.35,
     bin_end = 0.35;
   double seed = 2345;
@@ -60,7 +61,7 @@ int main(int argc, const char *argv[]) {
   vector<vector<double>> states(n_trajs);
   for(auto &i:states) {
     vector<double> pb,qb; tie(pb,qb) = make_bath(wb,cb,beta,++seed);
-    i= make_initial_state(n1, bin_start,pb,qb,++seed); 
+    i= make_initial_state(n1, bin_start,n_shift,pb,qb,++seed); 
   }
   o(states,"states.dat");
 
@@ -69,13 +70,13 @@ int main(int argc, const char *argv[]) {
   transform(states.begin(),states.end(),back_inserter(trajs), bind(integrate_traj,_1,n_times,end_time,delta,wb,cb));
   auto traj = trajs.front();
   for(auto &i:traj) {
-    i.push_back(get_n1(i));
-    i.push_back(get_n2(i));
+    i.push_back(get_n1{n_shift}(i));
+    i.push_back(get_n2{n_shift}(i));
   }
   o(traj,"traj.dat");
 
   cout << "binning ... \n";
-  auto el_pop = electronic_population(trajs,n1,n2,bin_end);
+  auto el_pop = electronic_population(trajs,n1,n2,bin_end,n_shift);
   o(el_pop ,"el_pop.dat");
   
   return 0;

@@ -14,12 +14,12 @@
   typedef vector<vector<double>> vvd;
   typedef vector<vector<vector<double>>> vvvd;
 
-vector<vector<double>> electronic_population(vector<vector<vector<double>>> trajs, double n1, double n2, double bin_end) {
+vector<vector<double>> electronic_population(vector<vector<vector<double>>> trajs, double n1, double n2, double bin_end, double n_shift) {
   vvvd n1ts;
   transform(trajs.begin(),trajs.end(),back_inserter(n1ts),[=](vvd traj){
         vvd n1t;
         transform(traj.begin(),traj.end(),back_inserter(n1t), [=](vd point) {
-          return vector<double>{point.front(), box(get_n1(point), n1, bin_end)};
+          return vector<double>{point.front(), box(get_n1{n_shift}(point), n1, bin_end)};
           });
         return n1t;
       });
@@ -36,7 +36,7 @@ vector<vector<double>> electronic_population(vector<vector<vector<double>>> traj
   transform(trajs.begin(),trajs.end(),back_inserter(n2ts),[=](vvd traj){
         vvd n2t;
         transform(traj.begin(),traj.end(),back_inserter(n2t), [=](vd point) {
-          return vector<double>{point.front(), box(get_n2(point), n1, bin_end)};
+          return vector<double>{point.front(), box(get_n2{n_shift}(point), n1, bin_end)};
           });
         return n2t;
       });

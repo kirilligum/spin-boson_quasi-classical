@@ -1,3 +1,6 @@
 #pragma once
 
-double p_from_n(double n, double q);
+struct p_from_n {
+  double n_shift;
+  double operator()(double n, double q);
+};

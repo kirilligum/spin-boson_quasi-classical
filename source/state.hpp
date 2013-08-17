@@ -2,6 +2,13 @@
 #include <vector>
 using namespace std;
 
-double get_n1(vector<double> s) ;
 
-double get_n2(vector<double> s) ;
+struct get_n1 {
+  double n_shift;
+  double operator()(vector<double> s) ;
+};
+
+struct get_n2 {
+  double n_shift;
+  double operator()(vector<double> s) ;
+};

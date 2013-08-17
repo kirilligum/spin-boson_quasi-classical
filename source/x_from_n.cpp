@@ -1,4 +1,4 @@
 #include <cmath>
 #include "x_from_n.hpp"
 
-double x_from_n(double n, double q) { return -sqrt(2*(n+0.35))*sin(q);}
+double x_from_n::operator()(double n, double q) { return -sqrt(2*(n+n_shift))*sin(q);}
