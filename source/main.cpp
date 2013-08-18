@@ -32,10 +32,11 @@ int main(int argc, const char *argv[]) {
     alpha = 0.09,
     wc = 2.5,
     wmax_factor = 1,
-    beta = 5 ,
+    beta = 0.1 ,
+    //beta = 5 ,
     delta = 1,
     eps = 0,
-    end_time = 15 ,
+    end_time = 20 ,
     n1 = 1.0,
     n2 = 0.0,
     n_shift = 0.35,
@@ -67,7 +68,7 @@ int main(int argc, const char *argv[]) {
 
   cout << "Integrating trajectories \n";
   vector<vector<vector<double>>> trajs;
-  transform(states.begin(),states.end(),back_inserter(trajs), bind(integrate_traj,_1,n_times,end_time,delta,wb,cb));
+  transform(states.begin(),states.end(),back_inserter(trajs), bind(integrate_traj,_1,n_times,end_time,delta,eps,wb,cb));
   auto traj = trajs.front();
   for(auto &i:traj) {
     i.push_back(get_n1{n_shift}(i));

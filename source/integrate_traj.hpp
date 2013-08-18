@@ -3,5 +3,5 @@
 
 using namespace std;
 
-vector<vector<double>> integrate_traj(vector<double> state, int n_times, double end_time, double delta, vector<double> wb, vector<double> cb) ;
+vector<vector<double>> integrate_traj(vector<double> state, int n_times, double end_time, double delta, double eps, vector<double> wb, vector<double> cb) ;
 

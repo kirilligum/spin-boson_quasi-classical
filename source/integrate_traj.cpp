@@ -20,10 +20,10 @@
 
 using namespace std;
 
-vector<vector<double>> integrate_traj(vector<double> state, int n_times, double end_time, double delta, vector<double> wb, vector<double> cb) {
+vector<vector<double>> integrate_traj(vector<double> state, int n_times, double end_time, double delta, double eps, vector<double> wb, vector<double> cb) {
   vector<vector<double>> traj(n_times,vector<double>(state));
-  auto energy = spin_boson(delta,wb,cb);
-  boost::partial_sum(traj, traj.begin(),ode_step(end_time/n_times,eom_spin_boson(delta,wb,cb),energy));
+  auto energy = spin_boson(delta,eps,wb,cb);
+  boost::partial_sum(traj, traj.begin(),ode_step(end_time/n_times,eom_spin_boson(delta,eps,wb,cb),energy));
   traj.front().back()= energy(state);
   return traj;
 }
